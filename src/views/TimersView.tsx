@@ -7,18 +7,40 @@ import Tabata from "../components/timers/Tabata";
 
 const Timers = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  height: 100vh;
+  background-color: f5f5f5;
+  gap: 40px;
 `;
 
 const Timer = styled.div`
-  border: 1px solid gray;
-  padding: 20px;
-  margin: 10px;
+  width: 240px;
+  height: 240px;
+  background-color: #e0e0e0;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: #d0d0d0;
+    transform: scale(1.05);
+
+  &:active {
+    background-color: #c0c0c0;
+  }
 `;
 
-const TimerTitle = styled.div``;
+const TimerTitle = styled.div`
+`;
 
 const TimersView = () => {
   const timers = [
