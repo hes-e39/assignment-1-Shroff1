@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import ActionButton from '../generic/ActionButton';
 import DisplayWindow from '../generic/DisplayWindow';
+import InputField from '../generic/Input';
 import Loading from '../generic/Loading';
 
 const Countdown = () => {
+    //States being maintained
     const [time, setTime] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
@@ -10,6 +13,7 @@ const Countdown = () => {
 
     useEffect(() => {
         let timer: number | undefined;
+        //if statement to run countdown and check if time has reached 0
         if (isRunning && time > 0) {
             timer = setInterval(() => {
                 setTime(prevTime => prevTime - 1);
@@ -22,26 +26,31 @@ const Countdown = () => {
         };
     }, [isRunning, time]);
 
+    //Toggles between Play and Pause
     const handlePlayPause = () => {
         setIsRunning(prev => !prev);
     };
 
+    //Resets time to what was originally kept
     const handleReset = () => {
         setIsRunning(false);
         setTime(minutes * 60 + seconds);
     };
 
+    //Gets an end to the timer.
     const handleFastForward = () => {
         setIsRunning(false);
         setTime(0);
     };
 
+    //Minute change converts to seconds and assigns set time variable.
     const handleMinuteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Math.max(0, Number.parseInt(e.target.value, 10) || 0);
         setMinutes(value);
         setTime(value * 60 + seconds);
     };
 
+    //seconds used to set the value.
     const handleSecondChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = Math.max(0, Number.parseInt(e.target.value, 10) || 0);
         value = value > 59 ? 59 : value;
@@ -60,43 +69,14 @@ const Countdown = () => {
             }}
         >
             <DisplayWindow time={time} />
-            <div style={{ marginBottom: '10px' }}>
-                <label style={{ fontSize: '0.5rem' }}>
-                    Min:
-                    <input
-                        type="number"
-                        value={minutes}
-                        onChange={handleMinuteChange}
-                        placeholder="Minutes"
-                        min="0"
-                        style={{ padding: '5px', width: '60px', marginRight: '5px', backgroundColor: isRunning ? '#d3d3d3' : 'White' }}
-                        disabled={isRunning}
-                    />
-                </label>
-                <label style={{ marginLeft: '20px', fontSize: '0.5rem' }}>
-                    Sec:
-                    <input
-                        type="number"
-                        value={seconds}
-                        onChange={handleSecondChange}
-                        placeholder="Seconds"
-                        min="0"
-                        max="59"
-                        style={{ padding: '5px', width: '60px', backgroundColor: isRunning ? '#d3d3d3' : 'White' }}
-                        disabled={isRunning}
-                    />
-                </label>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
+                <InputField value={minutes} onChange={handleMinuteChange} placeholder="Min:" min={0} disabled={isRunning} isRunning={isRunning} />
+                <InputField value={seconds} onChange={handleSecondChange} placeholder="Sec:" min={0} max={59} disabled={isRunning} isRunning={isRunning} />
             </div>
             <Loading.ActivityButtonContainer>
-                <Loading.PlayButton key="PlayPause" onClick={handlePlayPause}>
-                    {isRunning ? 'Pause' : 'Play'}
-                </Loading.PlayButton>
-                <Loading.PlayButton key="Reset" onClick={handleReset}>
-                    Reset
-                </Loading.PlayButton>
-                <Loading.PlayButton key="FastForward" onClick={handleFastForward}>
-                    FastForward
-                </Loading.PlayButton>
+                <ActionButton name={isRunning ? 'Pause' : 'Play'} key="PausePlay" onClick={handlePlayPause} />
+                <ActionButton name="Reset" key="Reset" onClick={handleReset} />
+                <ActionButton name="FastForward" key="FastForward" onClick={handleFastForward} />
             </Loading.ActivityButtonContainer>
         </div>
     );

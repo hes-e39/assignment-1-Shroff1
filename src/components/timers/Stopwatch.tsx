@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
+import ActionButton from '../generic/ActionButton';
 import DisplayWindow from '../generic/DisplayWindow';
 import Loading from '../generic/Loading';
 
 const Stopwatch = () => {
+    //maintains state
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
 
+    // The timer set interval increases at 1000 milli seconds
     useEffect(() => {
         let timer: number | undefined;
         if (isRunning) {
@@ -18,19 +21,23 @@ const Stopwatch = () => {
         };
     }, [isRunning]);
 
+    //Toggles between play and pause
     const handlePlayPause = () => {
         setIsRunning((prev: boolean) => !prev);
     };
 
+    //Resets the value to 0 to start the stopwatch again
     const handleReset = () => {
         setIsRunning(false);
         setTime(0);
     };
 
+    //the stop button to change the running state
     const handleStop = () => {
         setIsRunning(false);
     };
 
+    //returns the display window
     return (
         <div
             style={{
@@ -43,15 +50,9 @@ const Stopwatch = () => {
         >
             <DisplayWindow time={time} />
             <Loading.ActivityButtonContainer>
-                <Loading.PlayButton key="PlayPause" onClick={handlePlayPause}>
-                    {isRunning ? 'Pause' : 'Play'}
-                </Loading.PlayButton>
-                <Loading.PlayButton key="Reset" onClick={handleReset}>
-                    Reset
-                </Loading.PlayButton>
-                <Loading.PlayButton key="FastForward" onClick={handleStop}>
-                    Stop
-                </Loading.PlayButton>
+                <ActionButton name={isRunning ? 'Pause' : 'Play'} key="PausePlay" onClick={handlePlayPause} />
+                <ActionButton name="Reset" key="Reset" onClick={handleReset} />
+                <ActionButton name="Stop" key="FastForward" onClick={handleStop} />
             </Loading.ActivityButtonContainer>
         </div>
     );

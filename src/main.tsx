@@ -21,23 +21,6 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const NavList = styled.ul`
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-`;
-
-const NavItem = styled.li`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  background-color: f5f5f5;
-  gap: 20px;
-`;
-
 const ButtonLink = styled(Link)`
   display: flex;
   text-decoration: none;
@@ -55,6 +38,9 @@ const ButtonLink = styled(Link)`
   justify-content: center;
   font-weight: bold;
   cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 20%;
 
   &:hover {
     background-color: #d0d0d0;
@@ -64,22 +50,14 @@ const ButtonLink = styled(Link)`
   &.active {
     background-color: #c0c0c0;
   }
-
-
 `;
 
 const PageIndex = () => {
     return (
         <Container>
             <Title>ANIKET'S TIMECLOCK ASSIGNMENT</Title>
-            <NavList>
-                <NavItem>
-                    <ButtonLink to="/">Timers</ButtonLink>
-                </NavItem>
-                <NavItem>
-                    <ButtonLink to="/docs">Documentation</ButtonLink>
-                </NavItem>
-            </NavList>
+            <ButtonLink to="/">Timers</ButtonLink>
+            <ButtonLink to="/docs">Documentation</ButtonLink>
             <Outlet />
         </Container>
     );

@@ -8,18 +8,27 @@ import XY from '../components/timers/XY';
 
 const TimersContainer = styled.div`
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
   height: 60vh;
   background-color: #f5f5f5;
-  gap: 0px;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
-const TimerButton = styled.div`
+interface TimerButtonProps {
+    isActive: boolean;
+}
+
+const TimerButton = styled.div<TimerButtonProps>`
   width: 80px;
   height: 80px;
-  background-color: #e0e0e0;
+  background-color: ${props => (props.isActive ? '#c0c0c0' : '#e0e0e0')};
   border: 2px solid #ccc;
   border-radius: 50%;
   display: flex;
@@ -44,7 +53,7 @@ const TimerTitle = styled.div`
   text-align: center;
 `;
 
-const ButtonContainer = styled.div`
+const StopWatchButtonContainer = styled.div`
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
@@ -66,6 +75,7 @@ const TimerDisplay = styled.div`
   margin-bottom: 20px;
 `;
 
+//Toggles between timer based on the button selected.
 const TimersView = () => {
     const [activeTimer, setActiveTimer] = useState<string | null>(null);
 
@@ -77,15 +87,22 @@ const TimersView = () => {
     ];
 
     return (
-        <TimersContainer>
+        <TimersContainer onClick={() => console.log('ani')}>
             <TimerDisplay>{timers.map(timer => (activeTimer === timer.title ? timer.C : null))}</TimerDisplay>
-            <ButtonContainer>
+            <StopWatchButtonContainer>
                 {timers.map(timer => (
-                    <TimerButton key={`timer-${timer.title}`} onClick={() => setActiveTimer(timer.title)}>
+                    <TimerButton
+                        key={`timer-${timer.title}`}
+                        isActive={activeTimer === timer.title}
+                        onClick={e => {
+                            e.stopPropagation();
+                            setActiveTimer(timer.title);
+                        }}
+                    >
                         <TimerTitle>{timer.title}</TimerTitle>
                     </TimerButton>
                 ))}
-            </ButtonContainer>
+            </StopWatchButtonContainer>
         </TimersContainer>
     );
 };

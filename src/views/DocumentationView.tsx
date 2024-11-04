@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 import DocumentComponent from '../components/documentation/DocumentComponent';
 
+import ActionButton from '../components/generic/ActionButton';
 import DisplayWindow from '../components/generic/DisplayWindow';
+import InputField from '../components/generic/Input';
 import Loading from '../components/generic/Loading';
 
 const Container = styled.div`
@@ -18,6 +20,10 @@ const Title = styled.div`
 /**
  * You can document your components by using the DocumentComponent component
  */
+
+const noop = () => {};
+const bool = true;
+
 const Documentation = () => {
     return (
         <Container>
@@ -44,6 +50,30 @@ const Documentation = () => {
                             description: 'Displays the Timer in Min and Sec',
                             type: 'number',
                             defaultValue: '0:00',
+                        },
+                    ]}
+                />
+                <DocumentComponent
+                    title="Action Button "
+                    component={<ActionButton name="Play" onClick={noop} />}
+                    propDocs={[
+                        {
+                            prop: 'Action Button',
+                            description: 'Customize Button According to Requirement',
+                            type: 'String',
+                            defaultValue: 'Blank',
+                        },
+                    ]}
+                />
+                <DocumentComponent
+                    title="Input Field "
+                    component={<InputField value={0} onChange={noop} placeholder="Min:" min={0} disabled={bool} isRunning={bool} />}
+                    propDocs={[
+                        {
+                            prop: 'Input Field',
+                            description: 'Customize Input Field for Time',
+                            type: 'string',
+                            defaultValue: '0',
                         },
                     ]}
                 />
