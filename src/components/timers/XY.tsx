@@ -18,7 +18,7 @@ const XY = () => {
             timer = setInterval(() => {
                 setTime(prevTime => {
                     if (prevTime === 1) {
-                        if (currentRepeat < repititions) {
+                        if (currentRepeat < repititions - 1) {
                             setCurrentRepeat(prev => prev + 1);
                             return minutes * 60 + seconds;
                         } else {
