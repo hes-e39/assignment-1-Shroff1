@@ -1,23 +1,59 @@
-import styled from "styled-components";
+import { useState } from 'react';
+import styled from 'styled-components';
 
-import Stopwatch from "../components/timers/Stopwatch";
-import Countdown from "../components/timers/Countdown";
-import XY from "../components/timers/XY";
-import Tabata from "../components/timers/Tabata";
+import Countdown from '../components/timers/Countdown';
+import Stopwatch from '../components/timers/Stopwatch';
+import Tabata from '../components/timers/Tabata';
+import XY from '../components/timers/XY';
 
-const Timers = styled.div`
+const TimersContainer = styled.div`
   display: flex;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
-  background-color: f5f5f5;
-  gap: 40px;
+  height: 60vh;
+  background-color: #f5f5f5;
+  gap: 0px;
 `;
 
-const Timer = styled.div`
-  width: 240px;
-  height: 240px;
+const TimerButton = styled.div`
+  width: 80px;
+  height: 80px;
+  background-color: #e0e0e0;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: #d0d0d0;
+    transform: scale(1.05);
+  }
+  &:active {
+    background-color: #c0c0c0;
+  }
+`;
+
+const TimerTitle = styled.div`
+  text-align: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-direction: row;
+`;
+
+const TimerDisplay = styled.div`
+  width: 340px;
+  height: 340px;
   background-color: #e0e0e0;
   border: 2px solid #ccc;
   border-radius: 50%;
@@ -27,39 +63,31 @@ const Timer = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    background-color: #d0d0d0;
-    transform: scale(1.05);
-
-  &:active {
-    background-color: #c0c0c0;
-  }
-`;
-
-const TimerTitle = styled.div`
+  margin-bottom: 20px;
 `;
 
 const TimersView = () => {
-  const timers = [
-    { title: "Stopwatch", C: <Stopwatch /> },
-    { title: "Countdown", C: <Countdown /> },
-    { title: "XY", C: <XY /> },
-    { title: "Tabata", C: <Tabata /> },
-  ];
+    const [activeTimer, setActiveTimer] = useState<string | null>(null);
 
-  return (
-    <Timers>
-      {timers.map((timer) => (
-        <Timer key={`timer-${timer.title}`}>
-          <TimerTitle>{timer.title}</TimerTitle>
-          {timer.C}
-        </Timer>
-      ))}
-    </Timers>
-  );
+    const timers = [
+        { title: 'Stopwatch', C: <Stopwatch /> },
+        { title: 'Countdown', C: <Countdown /> },
+        { title: 'XY', C: <XY /> },
+        { title: 'Tabata', C: <Tabata /> },
+    ];
+
+    return (
+        <TimersContainer>
+            <TimerDisplay>{timers.map(timer => (activeTimer === timer.title ? timer.C : null))}</TimerDisplay>
+            <ButtonContainer>
+                {timers.map(timer => (
+                    <TimerButton key={`timer-${timer.title}`} onClick={() => setActiveTimer(timer.title)}>
+                        <TimerTitle>{timer.title}</TimerTitle>
+                    </TimerButton>
+                ))}
+            </ButtonContainer>
+        </TimersContainer>
+    );
 };
 
 export default TimersView;
